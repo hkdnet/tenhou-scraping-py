@@ -3,7 +3,7 @@ from operator import itemgetter
 
 output = []
 
-with open('天鳳ランキング_files\dummy.html', 'r', encoding='utf-8') as f:
+with open('ranking_files\dummy.html', 'r', encoding='utf-8') as f:
     # ファイルをhtml解析しやすいよう変換
     soup = bs4.BeautifulSoup(f, 'html.parser')
 
