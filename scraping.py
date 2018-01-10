@@ -3,7 +3,7 @@ from operator import itemgetter
 
 output = []
 
-with open('ranking_files\dummy.html', 'r', encoding='utf-8') as f:
+with open('天鳳ランキング_files\dummy.html', 'r', encoding='utf-8') as f:
     # ファイルをhtml解析しやすいよう変換
     soup = bs4.BeautifulSoup(f, 'html.parser')
 
@@ -44,7 +44,7 @@ with open('ranking_files\dummy.html', 'r', encoding='utf-8') as f:
 
         count += 1
     
-        if count > 200:
+        if count > 861:
             break
 
     output = sorted(output, key=lambda x: x['No.'], reverse=True)
@@ -78,17 +78,20 @@ with open('ranking_files\dummy.html', 'r', encoding='utf-8') as f:
             '4位': count_fourth
         }
 
+        if game_num > 100:
+            rank_times_bef100 = analysis[game_num - 100 - 1] # 101ゲーム目の場合、1ゲーム目を取得
+            rank_times['直近1位'] = count_first - rank_times_bef100['1位']
+            rank_times['直近2位'] = count_second  - rank_times_bef100['2位']
+            rank_times['直近3位'] = count_third - rank_times_bef100['3位']
+            rank_times['直近4位'] = count_fourth - rank_times_bef100['4位']
+
         analysis.append(rank_times)
-
-        ## todo: 直近100戦のトップ率を算出する
-    
-    print(analysis)
-
+    # print(analysis)
 
 # 分析結果をcsvファイルに出力する。
 with open('output.csv', 'w', encoding='utf-8') as f:
     # ヘッダー
-    f.write('No.,1位,2位,3位,4位\n')
+    f.write('No.,1位,2位,3位,4位,直近1位,直近2位,直近3位,直近4位\n')
     
     for row in analysis:
         f.write(str(row['No.']))
@@ -100,4 +103,13 @@ with open('output.csv', 'w', encoding='utf-8') as f:
         f.write(str(row['3位']))
         f.write(',')
         f.write(str(row['4位']))
+        if(row['No.']) > 100:
+            f.write(',')
+            f.write(str(row['直近1位']))
+            f.write(',')
+            f.write(str(row['直近2位']))
+            f.write(',')
+            f.write(str(row['直近3位']))
+            f.write(',')
+            f.write(str(row['直近4位']))
         f.write('\n')
