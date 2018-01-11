@@ -3,8 +3,8 @@ from operator import itemgetter
 import datetime
 
 output = []
-
-with open('天鳳ランキング_files\dummy.html', 'r', encoding='utf-8') as f:
+path = '天鳳ランキング_files\dummy.html'
+with open(path, 'r', encoding='utf-8') as f:
     # ファイルをhtml解析しやすいよう変換
     soup = bs4.BeautifulSoup(f, 'html.parser')
 
